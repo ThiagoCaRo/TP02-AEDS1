@@ -1,5 +1,4 @@
 #include "Menu.h"
-void tabela_verdade(int colunas);
 
 int main(){
     int op;
