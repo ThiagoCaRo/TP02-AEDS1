@@ -3,12 +3,41 @@
 
 void Manual(void){
     clock_t tempo;
-    int C,N,i,j,k,op;
+    int C,N,i,j,k,op,index;
     printf("Entre com o numero de clausulas e posteriormente com o numero de variaveis booleanas no formato: CLAUSULAS VARIAVEIS\n");
     scanf("%d %d",&C,&N);
+    while(N<3){
+        printf("Numero de variaveis invalidas para o tipo de entrada escolhido. Entre com um novo valor:");
+        scanf(" %d",&N);
+    }
     int Expressao[C][N],MatrizVerdade[C][N];
     printf("Preencha a expressao:\n");
     for(i=0;i<C;i++){
+        for(j=0;j<N;j++){
+            Expressao[i][j]=0;
+        }
+    }
+    for(i=0;i<C;i++){
+        printf("\nCLAUSULA %d\n",i+1);
+        printf("\nEntre com o numero da primeira variavel da clausula %d, de 1 ate N inclusive: \n",i+1);
+        scanf("%d",&index);
+        printf("\nA variavel X%d esta negada?   QUALQUER INTEIRO -> SIM  2 -> NAO: \n",index);
+        scanf("%d",&op);
+        Expressao[i][index-1]=op;
+
+        printf("\nEntre com o numero da segunda variavel da clausula %d, de 1 ate N inclusive: ",i+1);
+        scanf("%d",&index);
+        printf("\nA variavel X%d esta negada?   QUALQUER INTEIRO -> SIM  2 -> NAO: \n",index);
+        scanf("%d",&op);
+        Expressao[i][index-1]=op;
+
+        printf("\nEntre com o numero da terceira variavel da clausula %d, de 1 ate N inclusive: \n",i+1);
+        scanf("%d",&index);
+        printf("\nA variavel X%d esta negada?   QUALQUER INTEIRO -> SIM  2 -> NAO: \n",index);
+        scanf("%d",&op);
+        Expressao[i][index-1]=op;
+    }
+    /*for(i=0;i<C;i++){
         for(j=0;j<N;j++){
             printf("CLAUSULA %d: A variavel X%d existe?\n\n  QUALQUER INTEIRO -> SIM\n  2 -> NAO\n\n",i+1,j+1);
             scanf("%d",&op);
@@ -26,7 +55,7 @@ void Manual(void){
                 }
             }
         }
-    }
+    }*/
     tempo=clock();
     int sum,prod=1;
     char vet[40];
@@ -112,20 +141,24 @@ void Manual(void){
 void Automatico(void){
     srand(time(NULL));
     clock_t tempo;
-    int C,N,i,j,k,op;
+    int C,N,i,j,k;
     printf("Entre com o numero de variaveis booleanas: VARIAVEIS\n");
     scanf("%d",&N);
+    while(N<3){
+        printf("Numero de variaveis invalidas para o tipo de entrada escolhido. Entre com um novo valor:");
+        scanf(" %d",&N);
+    }
     C=(N/3)*2;
-    int Expressao[C][N],MatrizVerdade[C][N],NUM;
-    printf("Preencha a expressao:\n");
+    int Expressao[C][N],MatrizVerdade[C][N];
+    printf("Preenchendo automaticamente a expressao:\n\n");
     for(i=0;i<C;i++){
         for(j=0;j<N;j++){
             Expressao[i][j]=0;
         }
     }
     for(i=0;i<C;i++){
-        Expressao[i][rand()%N]=1+(rand()%2);
-        Expressao[i][rand()%N]=1+(rand()%2);
+        Expressao[i][rand()%N]=1+(rand()%2); //Ao menos uma das variáveis deve existir
+        Expressao[i][rand()%N]=1+(rand()%2); //As variáveis podem assumir 0 na matriz(Condição de inexistência)
         Expressao[i][rand()%N]=1+(rand()%2);
     }
     tempo=clock();
@@ -207,5 +240,5 @@ void Automatico(void){
 
 
     getchar();
-    printf("Tempo de execucao desconsiderando as entradas: %.4f s",(clock()-tempo)/(double)(CLOCKS_PER_SEC));
+    printf("\n\nTempo de execucao desconsiderando as entradas: %.4f s",(clock()-tempo)/(double)(CLOCKS_PER_SEC));
 }
